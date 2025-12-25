@@ -1,0 +1,1 @@
+#logica pentru o singura celula

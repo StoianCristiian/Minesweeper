@@ -1,0 +1,1 @@
+#butoanele de pe tabla
