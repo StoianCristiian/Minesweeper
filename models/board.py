@@ -25,5 +25,26 @@ class Board:
 
         for r, c in mine_coords:
             self.grid[r][c].is_mine = True
+        
+        self._neighbours_()
 
+    def _neighbours_(self):
+        for r in range(self.rows):
+            for c in range(self.cols):
+                neigh_count = 0
+                for neigh in self._check_neighbours_(r, c):
+                    if neigh.is_mine:
+                        neigh_count+=1
+                self.grid[r][c].neighbours_mines += neigh_count
+
+    def _check_neighbours_(self,r,c):
+        neigh = []
+        coord = [-1, 0, 1]
+        for rand in coord:
+            for coloana in coord:
+                cellr = rand + r
+                cellc = coloana + c
+                if 0 <= cellr < self.rows and 0 <= cellc < self.cols:
+                    neigh.append(self.grid[rand][coloana])
+        return neigh
 
