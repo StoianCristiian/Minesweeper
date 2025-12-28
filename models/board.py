@@ -51,3 +51,9 @@ class Board:
                     neigh.append(self.grid[cellr][cellc])
         return neigh
 
+    def _putFlag_(self,r,c):
+        poz = self.grid[r][c]
+        if not poz.is_revealed:
+            poz.is_flagged = not poz.is_flagged
+        return poz
+
