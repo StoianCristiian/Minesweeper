@@ -7,6 +7,7 @@ class Board:
         self.cols = cols
         self.grid = []
         self.mines_cnt = mines_cnt
+        self.game_over = False
         self.initialize_board()
 
     def initialize_board(self):
@@ -56,4 +57,24 @@ class Board:
         if not poz.is_revealed:
             poz.is_flagged = not poz.is_flagged
         return poz
+
+    def _cell_click_reveal_(self, r, c):
+        cell = self.grid[r][c]
+
+        if cell.is_revealed or cell.is_flagged:
+            return []
+
+        cell.is_revealed = True
+        all_revealed_cells = [cell]
+
+        if cell.is_mine:
+            self.game_over = True
+            return all_revealed_cells
+        
+        if cell.neighbours_mines == 0:
+            for neigh in self._check_neighbours_(r,c):
+                if not neigh.is_revealed:
+                    all_revealed_cells.extend(self._cell_click_reveal_(neigh.row, neigh.column))
+        
+        return all_revealed_cells
 
