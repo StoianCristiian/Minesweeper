@@ -8,6 +8,11 @@ class BoardView:
         self.buttons = []
 
         for r in range(rows):
+            self.master.rowconfigure(r, weight=1)
+        for c in range(cols):
+            self.master.columnconfigure(c, weight=1)
+
+        for r in range(rows):
             r_btns = []
             for c in range(cols):
                 btn = tk.Button(
@@ -22,5 +27,5 @@ class BoardView:
                 btn.bind("<Button-3>", lambda event, r=r, c=c: right_clk(r,c))
 
                 btn.grid(row=r, column=c, sticky="nsew")
-                r_btns.append(r_btns)
+                r_btns.append(btn)
             self.buttons.append(r_btns)

@@ -6,11 +6,10 @@ class MainWindow(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Minesweeper typeshit")
-        self.resizable(True, True)
         self.state("zoomed")
 
         self.board_container = tk.Frame(self, relief=tk.SUNKEN, borderwidth=2)
-        self.board_container.pack(padx=10, pady=10)
+        self.board_container.pack(padx=10, pady=10, expand=True, fill="both")
 
         self.header = tk.Frame(self)
         self.header.pack(pady=10)
