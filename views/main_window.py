@@ -16,3 +16,15 @@ class MainWindow(tk.Tk):
 
         self.timer = tk.Label(self.header, text="Timp: 0", font=("Arial", 14, "bold"))
         self.timer.pack(side=tk.LEFT, padx=20)
+
+    
+    def showGameOver(self, won=False):
+        if won == True:
+            title = "Esti boss"
+            message = "Ai gasit toate minele"
+        else:
+            title = "Slab"
+            message = "ai lovit o mina"
+        
+        messagebox.showinfo(title, message)
+

@@ -77,4 +77,13 @@ class Board:
                     all_revealed_cells.extend(self._cell_click_reveal_(neigh.row, neigh.column))
         
         return all_revealed_cells
+    
+    def checkWin(self):
+        for r in range(self.rows):
+            for c in range(self.cols):
+                cell = self.grid[r][c]
+                if not cell.is_mine and not cell.is_revealed:
+                    return False
+        return True
+
 
