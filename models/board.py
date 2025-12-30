@@ -46,6 +46,9 @@ class Board:
         coord = [-1, 0, 1]
         for rand in coord:
             for coloana in coord:
+                if rand == 0 and coloana == 0:
+                    continue
+                
                 cellr = rand + r
                 cellc = coloana + c
                 if 0 <= cellr < self.rows and 0 <= cellc < self.cols:
