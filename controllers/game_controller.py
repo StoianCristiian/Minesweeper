@@ -1,10 +1,13 @@
 from models import Board
 from views import MainWindow, BoardView
+
 class GameController:
     def __init__(self):
         self.rows = 10
         self.cols = 10
         self.mines = 10
+        self.time_remained = 120
+        self.timer_runs = False
 
         self.board = Board(self.rows,self.cols,self.mines)
         self.root = MainWindow()
@@ -15,7 +18,32 @@ class GameController:
                                      self.right_clk,
                                      )
         
+
+    def start_time(self):
+        if not self.timer_runs:
+            self.timer_runs = True
+            self.update_time()
+
+    
+    def update_time(self):
+        if self.board.game_over:
+            return
+
+        if self.timer_runs and not self.board.game_over:
+            self.time_remained -= 1
+            self.root.timerRunning(self.time_remained)
+            self.root.after(1000, self.update_time)
+        
+        if self.time_remained <= 0:
+            self.timer_runs = False
+            self.board.game_over = True
+            self.root.showGameOver(won=2)
+
+
     def left_clk(self,r,c):
+        if not self.timer_runs:
+            self.start_time()
+
         if self.board.game_over:
             return
         
@@ -25,10 +53,14 @@ class GameController:
 
         if self.board.game_over:
             self.showAllMines()
-            self.root.showGameOver(won=False)
+            self.timer_runs = False
+            self.root.showGameOver(won=0)
         elif self.board.checkWin():
             self.board.game_over = True
-            self.root.showGameOver(won=True)
+            self.timer_runs = False
+            self.root.showGameOver(won=1)
+
+
 
 
     def right_clk(self,r,c):
@@ -38,6 +70,8 @@ class GameController:
         cell = self.board._putFlag_(r,c)
         self.board_table.update_button(r,c,cell)
 
+
+
     def showAllMines(self):
         for r in range(self.rows):
             for c in range(self.cols):
@@ -45,6 +79,8 @@ class GameController:
                 if cell.is_mine:
                     cell.is_revealed = True
                     self.board_table.update_button(r,c,cell)
+
+
 
     def start_game(self):
         self.root.mainloop()

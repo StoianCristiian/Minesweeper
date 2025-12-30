@@ -10,6 +10,7 @@ class Board:
         self.game_over = False
         self.initialize_board()
 
+
     def initialize_board(self):
         self.grid = []
         for r in range(self.rows):
@@ -20,6 +21,7 @@ class Board:
         
         self._place_mines()
 
+
     def _place_mines(self):
         all_coordinates = [(r,c) for r in range(self.rows) for c in range(self.cols)]
         mine_coords = random.sample(all_coordinates, self.mines_cnt)
@@ -28,6 +30,7 @@ class Board:
             self.grid[r][c].is_mine = True
         
         self._neighbours_()
+
 
     def _neighbours_(self):
         for r in range(self.rows):
@@ -40,6 +43,7 @@ class Board:
                     if neigh.is_mine:
                         neigh_count+=1
                 self.grid[r][c].neighbours_mines = neigh_count
+
 
     def _check_neighbours_(self,r,c):
         neigh = []
@@ -55,11 +59,13 @@ class Board:
                     neigh.append(self.grid[cellr][cellc])
         return neigh
 
+
     def _putFlag_(self,r,c):
         poz = self.grid[r][c]
         if not poz.is_revealed:
             poz.is_flagged = not poz.is_flagged
         return poz
+
 
     def _cell_click_reveal_(self, r, c):
         cell = self.grid[r][c]
@@ -80,7 +86,8 @@ class Board:
                     all_revealed_cells.extend(self._cell_click_reveal_(neigh.row, neigh.column))
         
         return all_revealed_cells
-    
+
+
     def checkWin(self):
         for r in range(self.rows):
             for c in range(self.cols):
