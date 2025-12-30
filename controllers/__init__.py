@@ -1,1 +1,1 @@
-#init the controllers
+from controllers.game_controller import GameController

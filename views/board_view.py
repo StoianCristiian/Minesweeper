@@ -29,3 +29,22 @@ class BoardView:
                 btn.grid(row=r, column=c, sticky="nsew")
                 r_btns.append(btn)
             self.buttons.append(r_btns)
+
+    def update_button(self,r,c,cell):
+        buton = self.buttons[r][c]
+
+        if cell.is_revealed:
+            buton.config(relief=tk.SUNKEN, bg="#e0e0e0")
+            if cell.is_mine:
+                buton.config(text="💣", bg="red")
+            elif cell.neighbours_mines > 0:
+                colors = {1: "blue", 2:"green", 3:"red", 4:"darkblue"}
+                color = colors.get(cell.neighbours_mines, "black")
+                buton.config(text=str(cell.neighbours_mines), fg=color)
+            else:
+                buton.config(text="")
+        else:
+            if cell.is_flagged:
+                buton.config(text="🚩", fg="red")
+            else:
+                buton.config(text="", bg="SystemButtonFace")
