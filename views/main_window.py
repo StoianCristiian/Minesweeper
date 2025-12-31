@@ -7,8 +7,6 @@ class MainWindow(tk.Tk):
         super().__init__()
         self.title("Minesweeper typeshit")
         self.state("zoomed")
-        
-        self.setHeader()
         self.setBoard()
 
 
@@ -17,12 +15,20 @@ class MainWindow(tk.Tk):
         self.board_container.pack(padx=10, pady=10, expand=True, fill="both")
 
 
-    def setHeader(self):
+    def setHeader(self, reset_callback):
         self.header = tk.Frame(self)
         self.header.pack(pady=10)
 
         self.timer = tk.Label(self.header, text="Timp: 0", font=("Arial", 14, "bold"))
         self.timer.pack(side=tk.LEFT, padx=20)
+
+        self.reset_btn = tk.Button(
+            self.header,
+            text=":)",
+            font=("Arial", 10),
+            command=reset_callback
+        )
+        self.reset_btn.pack(side=tk.LEFT, padx=20)
 
 
     def showGameOver(self, won=False):

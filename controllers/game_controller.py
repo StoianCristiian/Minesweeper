@@ -17,15 +17,39 @@ class GameController:
         self.mines = m
         self.time_remained = t
         self.timer_runs = False
+        self.initial_time = t
 
         self.root_setup.destroy()
+        self.startTheGame()
+
+    
+    def startTheGame(self):
+        self.time_remained = self.initial_time
+        self.timer_runs = False
 
         self.board = Board(self.rows, self.cols, self.mines)
         self.root = MainWindow()
+
+        self.root.setHeader(self.restart_game)
+
         self.board_table = BoardView(self.root.board_container, self.rows, self.cols, self.left_clk, self.right_clk)
 
         self.root.timerRunning(self.time_remained)
         self.root.mainloop()
+
+    
+    def restart_game(self):
+        self.timer_runs = False
+        self.time_remained = self.initial_time
+
+        self.board = Board(self.rows, self.cols, self.mines)
+        for btns in self.root.board_container.winfo_children():
+            btns.destroy()
+
+        self.board_table = BoardView(self.root.board_container, self.rows, self.cols, self.left_clk, self.right_clk)
+        self.root.timerRunning(self.time_remained)
+        self.root.reset_btn.config(text=':)')
+
         
 
     def start_time(self):
@@ -70,15 +94,12 @@ class GameController:
             self.root.showGameOver(won=1)
 
 
-
-
     def right_clk(self,r,c):
         if self.board.game_over:
             return
         
         cell = self.board._putFlag_(r,c)
         self.board_table.update_button(r,c,cell)
-
 
 
     def showAllMines(self):
@@ -88,7 +109,6 @@ class GameController:
                 if cell.is_mine:
                     cell.is_revealed = True
                     self.board_table.update_button(r,c,cell)
-
 
 
     def start_game(self):
