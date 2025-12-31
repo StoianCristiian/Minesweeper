@@ -1,22 +1,31 @@
 from models import Board
-from views import MainWindow, BoardView
+from views import MainWindow, BoardView, WindowSettings
+import tkinter as tk
 
 class GameController:
     def __init__(self):
-        self.rows = 10
-        self.cols = 10
-        self.mines = 10
-        self.time_remained = 120
+        self.root_setup = tk.Tk()
+        self.root_setup.withdraw()
+
+        self.settings = WindowSettings(self.setup_game)
+        self.root_setup.mainloop()
+
+    
+    def setup_game(self,r,c,m,t):
+        self.rows = r
+        self.cols = c
+        self.mines = m
+        self.time_remained = t
         self.timer_runs = False
 
-        self.board = Board(self.rows,self.cols,self.mines)
+        self.root_setup.destroy()
+
+        self.board = Board(self.rows, self.cols, self.mines)
         self.root = MainWindow()
-        self.board_table = BoardView(self.root.board_container,
-                                     self.rows,
-                                     self.cols,
-                                     self.left_clk,
-                                     self.right_clk,
-                                     )
+        self.board_table = BoardView(self.root.board_container, self.rows, self.cols, self.left_clk, self.right_clk)
+
+        self.root.timerRunning(self.time_remained)
+        self.root.mainloop()
         
 
     def start_time(self):

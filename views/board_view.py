@@ -31,7 +31,6 @@ class BoardView:
             self.buttons.append(r_btns)
 
 
-
     def update_button(self,r,c,cell):
         buton = self.buttons[r][c]
 
